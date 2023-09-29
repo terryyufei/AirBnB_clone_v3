@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """creating a flask application"""
 
+from os import getenv
 from flask import Flask
 from models import storage
 from api.v1.views import app_views
@@ -21,11 +22,7 @@ def teardown(exception):
 
 
 if __name__ == "__main__":
-    from os import getenv
-    
-    # define host and port for flask server
-    host = getenv("HBNB_API_HOST", "0.0.0.0")
-    port = int(getenv("HBNB_API_PORT", 5000))
-
-    # Run flask server
-    app.run(host=host, port=port, threaded=True)
+    HBNB_API_HOST = getenv('HBNB_API_HOST')
+    HBNB_API_PORT = getenv('HBNB_API_PORT')
+    app.run(host=HBNB_API_HOST, port=HBNB_API_PORT,
+            threaded=True) 
