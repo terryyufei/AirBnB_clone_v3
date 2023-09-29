@@ -8,14 +8,14 @@ from models.state import State
 from models.city import City
 
 
-@app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/states/<state_id>/cities', methods=['GET'],
+                 strict_slashes=False)
 def get_city_by_state(state_id):
     """Retrieves the list of all City objects of a State"""
     state = storage.get("State", state_id)
     if not state:
         abort(404)
-    cities = [city.to_dict() for city in state.cities]
-    return jsonify(cities)
+    return jsonify([city.to_dict() for city in state.cities])    
 
 
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
@@ -73,5 +73,5 @@ def update_city(city_id):
     for key, value in data.items():
         if key not in ['id', 'state_id', 'created_at', 'updated_at']:
             setattr(city, key, value)
-    city.save()
+    storage.save()
     return make_response(jsonify(city.to_dict()), 200)
