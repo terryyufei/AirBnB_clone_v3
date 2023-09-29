@@ -16,7 +16,7 @@ app.register_blueprint(app_views)
 
 # Declare a method to handle teardown
 @app.teardown_appcontext
-def teardown(exception):
+def teardown(error):
     """closes the current SQLAchemy session"""
     storage.close()
 
