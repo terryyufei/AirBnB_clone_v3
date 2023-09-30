@@ -70,8 +70,9 @@ def update_city(city_id):
         abort(400, 'Not a JSON')
 
     # Update the State object's attributes based on the JSON data
+    for key in ["id", "state_id", "created_at", "updated_at"]:
+        data.pop(key, None)
     for key, value in data.items():
-        if key not in ['id', 'state_id', 'created_at', 'updated_at']:
-            setattr(city, key, value)
-    storage.save()
+        setattr(city, key, value)
+        city.save()
     return make_response(jsonify(city.to_dict()), 200)
